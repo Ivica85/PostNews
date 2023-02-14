@@ -1,3 +1,123 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+
+
+/* Custom button styles */
+.edit-button {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 10px;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0px 5px 10px #333;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    color: black;
+    width: 50px;
+    height: 30px;
+}
+
+.delete-button {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 8px 10px;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0px 5px 10px #333;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    color: black;
+    width: 50px;
+    height: 30px;
+}
+
+.reply-edit-button {
+    font-size: 15px;
+    padding: 8px 10px;
+    background-color: white;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0px 5px 10px #333;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    color: black;
+    width: 80px;
+    height: 40px;
+}
+
+
+
+.toggle-replies {
+    background-color: transparent;
+    border: 0;
+    color: #333;
+    font-size: 14px;
+    outline: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.toggle-replies i {
+    margin-right: 8px;
+    font-size: 16px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.toggle-replies.collapsed i {
+    transform: rotate(180deg);
+}
+
+
+.cancel-button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.cancel-button:hover:before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background-color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: -1;
+}
+
+.update-button{
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+.update-button:hover:before{
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background-color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: -1;
+}
+
