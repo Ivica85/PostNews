@@ -42,26 +42,20 @@ class PostsController extends Controller
     public function update(PostFormRequest $request,  $id = null)
     {
 
-//        $post = Post::findOrFail($id);
-//        if(auth()->user()->name =="Chris Redfield"){
-//            $input = [
-//                'title' => $request->title,
-//                'content' => $request->content,
-//            ];
-//            $post->update($input);
-//
-//        }else{
-//            auth()->user()->posts()->where('id', $id)->update([
-//                'title' => $request->title,
-//                'content' => $request->content,
-//            ]);
-//        }
+        $post = Post::findOrFail($id);
+        if(auth()->user()->is_admin){
+            $input = [
+                'title' => $request->title,
+                'content' => $request->content,
+            ];
+            $post->update($input);
 
-        auth()->user()->posts()->where('id', $id)->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
+        }else{
+            auth()->user()->posts()->where('id', $id)->update([
+                'title' => $request->title,
+                'content' => $request->content,
+            ]);
+        }
         return redirect()->route('post.index')->with('success', 'Article Updated!');
 
     }

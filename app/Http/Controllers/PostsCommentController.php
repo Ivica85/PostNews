@@ -19,8 +19,8 @@ class PostsCommentController extends Controller
      */
     public function index()
     {
-       $postComments = PostComments::paginate(4);
-      //  $postComments = PostComments::all();
+        $postComments = PostComments::paginate(4);
+        //  $postComments = PostComments::all();
         return view('comments/postsComments.index',compact('postComments'));
     }
 
@@ -105,15 +105,15 @@ class PostsCommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $comment = PostComments::findOrFail($id);
-       $input = $request->all();
-       $comment->update($input);
+        $comment = PostComments::findOrFail($id);
+        $input = $request->all();
+        $comment->update($input);
 
-       if($comment->status == 1){
-           $name = $comment->name;
-           $msg = "Hello $name, Your comment is approved. Thanks for commenting.";
-           //Mail::to($comment->email)->send(new SignUp($msg));     //send email to author...
-       }
+        if($comment->status == 1){
+            $name = $comment->name;
+            $msg = "Hello $name, Your comment is approved. Thanks for commenting.";
+            //Mail::to($comment->email)->send(new SignUp($msg));     //send email to author...
+        }
 
 
         return redirect('dashboard/postComments');
@@ -128,15 +128,12 @@ class PostsCommentController extends Controller
     public function destroy($id)
     {
         PostComments::findOrFail($id)->delete();
-
         return redirect('dashboard/postComments');
-
     }
 
     public function delete($id)
     {
         PostComments::findOrFail($id)->delete();
-
         Session::flash('delete_message','Your comment has been deleted.');
         return redirect()->back();
 

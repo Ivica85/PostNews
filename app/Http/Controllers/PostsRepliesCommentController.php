@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
-class PostsRepliesCommentController extends Controller
+class  PostsRepliesCommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -84,9 +84,17 @@ class PostsRepliesCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'body'=>'required|min:2|max:2000'
+        ]);
+
+        $reply = PostCommentsReplies::findOrFail($id);
+        $input = $request->all();
+        $reply->update($input);
+        Session::flash('update_reply','Your reply has been successfully updated.');
+        return redirect()->back();
     }
 
     /**
@@ -101,7 +109,14 @@ class PostsRepliesCommentController extends Controller
         $reply = PostCommentsReplies::findOrFail($id);
         $input = $request->all();
         $reply->update($input);
-        //Session::flash('update_reply','Your reply has been successfully updated.');
+
+        if($reply->status == 1){
+            $name = $reply->name;
+            $msg = "Hello $name, Your comment is approved. Thanks for commenting.";
+            //Mail::to($comment->email)->send(new SignUp($msg));     //send email to author...
+        }
+
+
         return redirect()->back();
     }
 
@@ -112,6 +127,12 @@ class PostsRepliesCommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        PostCommentsReplies::findOrFail($id)->delete();
+        return redirect()->back();
+    }
+
+    public function delete($id)
     {
         PostCommentsReplies::findOrFail($id)->delete();
         Session::flash('delete_reply','Your comment reply has been deleted.');

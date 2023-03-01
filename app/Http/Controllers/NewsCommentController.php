@@ -17,9 +17,9 @@ class NewsCommentController extends Controller
      */
     public function index()
     {
-       $newsComments = NewsComments::paginate('4');
+        $newsComments = NewsComments::paginate('4');
 
-       return view('comments/newsComments.index',compact('newsComments'));
+        return view('comments/newsComments.index',compact('newsComments'));
     }
 
     /**

@@ -84,9 +84,17 @@ class NewsRepliesCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'body'=>'required|min:2|max:2000'
+        ]);
+
+        $reply = NewsCommentsReplies::findOrFail($id);
+        $input = $request->all();
+        $reply->update($input);
+        Session::flash('update_reply','Your reply has been successfully updated.');
+        return redirect()->back();
     }
 
     /**
@@ -112,6 +120,13 @@ class NewsRepliesCommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        NewsCommentsReplies::findOrFail($id)->delete();
+        Session::flash('delete_reply','Your comment reply has been deleted.');
+        return redirect()->back();
+    }
+
+    public function delete($id)
     {
         NewsCommentsReplies::findOrFail($id)->delete();
         Session::flash('delete_reply','Your comment reply has been deleted.');

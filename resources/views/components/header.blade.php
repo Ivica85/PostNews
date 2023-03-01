@@ -14,10 +14,10 @@
                 </button>
             </div>
             <nav class="items-center hidden space-x-10 md:flex">
-                @if(Auth::check())
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    Dashboard
-                </x-nav-link>
+                @if(Auth::check() && Auth::user()->is_admin())
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        Dashboard
+                    </x-nav-link>
                 @endif
                 <x-nav-link :href="route('posts')" :active="request()->routeIs('posts')">
                     Blog
@@ -26,7 +26,7 @@
                     News
                 </x-nav-link>
 
-                    @if(Auth::check())
+                @if(Auth::check())
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
@@ -107,3 +107,4 @@
         </div>
     </div>
 </div>
+

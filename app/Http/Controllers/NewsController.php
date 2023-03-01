@@ -42,10 +42,20 @@ class NewsController extends Controller
 
     public function update(NewsFormRequest $request,  $id = null)
     {
-        auth()->user()->news()->where('id', $id)->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        $news = News::findOrFail($id);
+        if(auth()->user()->is_admin){
+            $input = [
+                'title' => $request->title,
+                'content' => $request->content,
+            ];
+            $news->update($input);
+
+        }else{
+            auth()->user()->news()->where('id', $id)->update([
+                'title' => $request->title,
+                'content' => $request->content,
+            ]);
+        }
 
         return redirect()->route('news.index')->with('success', 'Article Updated!');
 

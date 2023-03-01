@@ -71,7 +71,7 @@
                                             <button type="submit" class="btn btn-danger delete-button">Delete</button>
                                         </form>
                                     @endif
-                                  @endauth
+                                @endauth
                             </div>
                         </div>
 
@@ -93,98 +93,98 @@
                     @endif
 
 
-                        <div style="padding:10px"></div>
-                        @if(count($comment->replyPostComments) > 0)
-                            @php
-                                $approvedRepliesCount = 0;
-                                foreach ($comment->replyPostComments as $reply) {
-                                    if ($reply->status == 1) {
-                                        $approvedRepliesCount++;
-                                    }
+                    <div style="padding:10px"></div>
+                    @if(count($comment->replyPostComments) > 0)
+                        @php
+                            $approvedRepliesCount = 0;
+                            foreach ($comment->replyPostComments as $reply) {
+                                if ($reply->status == 1) {
+                                    $approvedRepliesCount++;
                                 }
-                            @endphp
-                            @if($comment->replyPostComments()->count() > 0 && $approvedRepliesCount > 0 && $comment->status == 1 )
-                                <button class="toggle-replies btn btn-primary pull-left mr-3">
-                                    <i class="fas fa-caret-down arrow"></i>
-                                    {{$approvedRepliesCount}}
-                                    <span class="reply-text">@if($comment->replyPostComments()->count() == 1)
-                                            <strong>reply</strong>
-                                        @else
-                                            <strong>replies</strong>
-                                        @endif</span>
-                                </button>
-                            @endif
+                            }
+                        @endphp
+                        @if($comment->replyPostComments()->count() > 0 && $approvedRepliesCount > 0 && $comment->status == 1 )
+                            <button class="toggle-replies btn btn-primary pull-left mr-3">
+                                <i class="fas fa-caret-down arrow"></i>
+                                {{$approvedRepliesCount}}
+                                <span class="reply-text">@if($comment->replyPostComments()->count() == 1)
+                                        <strong>reply</strong>
+                                    @else
+                                        <strong>replies</strong>
+                                    @endif</span>
+                            </button>
+                        @endif
 
-                            <div class="replies-container" style="display: none;">
-                        @foreach($comment->replyPostComments as $reply)
-                            @if($reply->status == 1)
-                                <!-- Nested Comment -->
-                                <div id='nested-comment' class="media ml-5">
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{$reply->author}}
-                                            <small>{{$reply->created_at->diffForHumans()}}</small>
-                                        </h4>
-                                        <p class="user-comment mb-1" id="reply_comment_body_{{$reply->id}}">
-                                            {{$reply->body}}
-                                        </p>
+                        <div class="replies-container" style="display: none;">
+                            @foreach($comment->replyPostComments as $reply)
+                                @if($reply->status == 1)
+                                    <!-- Nested Comment -->
+                                    <div id='nested-comment' class="media ml-5">
+                                        <div class="media-body">
+                                            <h4 class="media-heading">{{$reply->author}}
+                                                <small>{{$reply->created_at->diffForHumans()}}</small>
+                                            </h4>
+                                            <p class="user-comment mb-1" id="reply_comment_body_{{$reply->id}}">
+                                                {{$reply->body}}
+                                            </p>
 
-                                        <div class="d-flex" style="display: flex; align-items: center;">
-                                            <div class="comment-reply-container">
-                                                <button style="margin-top: 10px" class="toggle-reply btn btn-primary pull-left mr-3 reply-edit-button ">Reply</button>
-                                                <div class="comment-reply" style="display: none;">
-                                                    <form action="{{route('postRepliesComment.create')}}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                                                        <div class="form-group" style="width: 600px;">
-                                                            <textarea class='form-control' rows="3" name="body"></textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button class="btn btn-primary reply-edit-button">Submit</button>
-                                                        </div>
-                                                    </form>
+                                            <div class="d-flex" style="display: flex; align-items: center;">
+                                                <div class="comment-reply-container">
+                                                    <button style="margin-top: 10px" class="toggle-reply btn btn-primary pull-left mr-3 reply-edit-button ">Reply</button>
+                                                    <div class="comment-reply" style="display: none;">
+                                                        <form action="{{route('postRepliesComment.create')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                                            <div class="form-group" style="width: 600px;">
+                                                                <textarea class='form-control' rows="3" name="body"></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary reply-edit-button">Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
+
+
+                                                @auth
+                                                    @if(Auth::user()->name == $reply->author)
+
+                                                        <form action="{{route('postRepliesComment.edit', $reply->id)}}" method="post" id="reply_edit_form_{{$reply->id}}" style="display: none;">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <textarea  style="width: 500px;" name="body" class="form-control" id="textarea_{{$reply->id}}">{{$reply->body}}</textarea>
+                                                            <button type="submit" class="btn btn-success mt-2 update-button">Update</button>
+                                                            <button class="btn btn-danger mt-2 cancel-button" id="reply_cancel_{{$reply->id}}">Cancel</button>
+                                                        </form>
+                                                        <button class="btn btn-primary mr-2 edit-button" id="reply_edit_{{$reply->id}}">Edit</button>
+                                                        <form action="{{route('commentReplyOwner.delete',$reply->id)}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger delete-button">Delete</button>
+                                                        </form>
+                                                    @endif
+                                                @endauth
                                             </div>
 
+                                            <script>
+                                                document.getElementById("reply_edit_{{$reply->id}}").addEventListener("click", function() {
+                                                    document.getElementById("reply_comment_body_{{$reply->id}}").style.display = "none";
+                                                    document.getElementById("reply_edit_form_{{$reply->id}}").style.display = "block";
+                                                });
 
-                                            @auth
-                                                @if(Auth::user()->name == $reply->author)
+                                                document.getElementById("reply_cancel_{{$reply->id}}").addEventListener("click", function (event) {
+                                                    event.preventDefault();
+                                                    document.getElementById("reply_comment_body_{{$reply->id}}").style.display = "block";
+                                                    document.getElementById("reply_edit_form_{{$reply->id}}").style.display = "none";
+                                                });
+                                            </script>
 
-                                                    <form action="{{route('postRepliesComment.update', $reply->id)}}" method="post" id="reply_edit_form_{{$reply->id}}" style="display: none;">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <textarea  style="width: 500px;" name="body" class="form-control" id="textarea_{{$reply->id}}">{{$reply->body}}</textarea>
-                                                        <button type="submit" class="btn btn-success mt-2 update-button">Update</button>
-                                                        <button class="btn btn-danger mt-2 cancel-button" id="reply_cancel_{{$reply->id}}">Cancel</button>
-                                                    </form>
-                                                    <button class="btn btn-primary mr-2 edit-button" id="reply_edit_{{$reply->id}}">Edit</button>
-                                                    <form action="{{route('postRepliesComment.delete',$reply->id)}}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger delete-button">Delete</button>
-                                                    </form>
-                                                @endif
-                                           @endauth
+
                                         </div>
-
-                                        <script>
-                                            document.getElementById("reply_edit_{{$reply->id}}").addEventListener("click", function() {
-                                                document.getElementById("reply_comment_body_{{$reply->id}}").style.display = "none";
-                                                document.getElementById("reply_edit_form_{{$reply->id}}").style.display = "block";
-                                            });
-
-                                            document.getElementById("reply_cancel_{{$reply->id}}").addEventListener("click", function (event) {
-                                                event.preventDefault();
-                                                document.getElementById("reply_comment_body_{{$reply->id}}").style.display = "block";
-                                                document.getElementById("reply_edit_form_{{$reply->id}}").style.display = "none";
-                                            });
-                                        </script>
-
-
                                     </div>
-                                </div>
-                            @endif
-                        @endforeach
-                            </div>
+                                @endif
+                            @endforeach
+                        </div>
                     @endif
                 @endforeach
 
@@ -262,6 +262,25 @@
 
 
 </x-guest-layout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
+
+    public function is_admin(){
+
+        if($this->is_admin  == true){
+            return true;
+        }
+        return false;
+
+
+    }
 }

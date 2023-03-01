@@ -72,7 +72,7 @@
                                             <button type="submit" class="btn btn-danger delete-button">Delete</button>
                                         </form>
                                     @endif
-                                  @endauth
+                                @endauth
                             </div>
                         </div>
 
@@ -150,7 +150,7 @@
                                                 @auth
                                                     @if(Auth::user()->name == $reply->author)
 
-                                                        <form action="{{route('newsRepliesComment.update', $reply->id)}}" method="post" id="reply_edit_form_{{$reply->id}}" style="display: none;">
+                                                        <form action="{{route('replyNewsComment.edit', $reply->id)}}" method="post" id="reply_edit_form_{{$reply->id}}" style="display: none;">
                                                             @csrf
                                                             @method('PATCH')
                                                             <textarea  style="width: 500px;" name="body" class="form-control" id="textarea_{{$reply->id}}">{{$reply->body}}</textarea>
@@ -158,7 +158,7 @@
                                                             <button class="btn btn-danger mt-2 cancel-button" id="reply_cancel_{{$reply->id}}">Cancel</button>
                                                         </form>
                                                         <button class="btn btn-primary mr-2 edit-button" id="reply_edit_{{$reply->id}}">Edit</button>
-                                                        <form action="{{route('newsRepliesComment.delete',$reply->id)}}" method="post">
+                                                        <form action="{{route('replyNewsCommentOwner.delete',$reply->id)}}" method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger delete-button">Delete</button>
@@ -263,6 +263,31 @@
 
 
 </x-guest-layout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
