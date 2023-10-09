@@ -1,3 +1,7 @@
+This is a project for writing posts and news, and a complete comment and reply system has been developed. Only the admin can approve which of the comments and replies will be displayed.
+
+
+
 ```
 composer install
 ```
